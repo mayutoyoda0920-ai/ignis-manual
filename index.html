@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ignis manual</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Inter", "Noto Sans JP", sans-serif;
+      background-color: #fff;
+      color: #262626;
+      line-height: 2;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== Header ===== */
+    header {
+      padding: 60px 40px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+      border-bottom: 1px solid #262626;
+    }
+
+    header h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+
+    header p {
+      margin-top: 16px;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: #888;
+      letter-spacing: 0.08em;
+    }
+
+    /* ===== Nav ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      backdrop-filter: blur(12px);
+      background-color: rgba(255,255,255,0.92);
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    nav a {
+      color: #262626;
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 400;
+      padding: 16px 20px;
+      display: block;
+      letter-spacing: 0.06em;
+      transition: opacity 0.3s;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 20px;
+      right: 20px;
+      height: 1px;
+      background-color: #262626;
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+
+    nav a:hover {
+      opacity: 0.5;
+    }
+
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ===== Main ===== */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 120px;
+    }
+
+    /* ===== Section ===== */
+    section {
+      padding-top: 80px;
+      margin-bottom: 40px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s forwards;
+    }
+
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.15s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.25s; }
+    section:nth-child(5) { animation-delay: 0.3s; }
+    section:nth-child(6) { animation-delay: 0.35s; }
+    section:nth-child(7) { animation-delay: 0.4s; }
+    section:nth-child(8) { animation-delay: 0.45s; }
+    section:nth-child(9) { animation-delay: 0.5s; }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 48px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #262626;
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 56px;
+      margin-bottom: 20px;
+      letter-spacing: 0.04em;
+      color: #262626;
+    }
+
+    h3::before {
+      content: '—';
+      margin-right: 12px;
+      color: #bbb;
+    }
+
+    p {
+      margin-bottom: 16px;
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: #444;
+    }
+
+    /* ===== Warning & Note ===== */
+    .warning {
+      background-color: #fafafa;
+      border-left: 2px solid #262626;
+      padding: 20px 24px;
+      margin: 20px 0;
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #262626;
+    }
+
+    .note {
+      background-color: #fafafa;
+      border-left: 2px solid #bbb;
+      padding: 20px 24px;
+      margin: 20px 0;
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: #444;
+    }
+
+    /* ===== Step List ===== */
+    .step-list {
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .step-list > li {
+      counter-increment: step;
+      position: relative;
+      padding-left: 64px;
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .step-list > li:last-child {
+      border-bottom: none;
+    }
+
+    .step-list > li::before {
+      content: counter(step, decimal-leading-zero);
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #262626;
+      letter-spacing: 0.02em;
+    }
+
+    .step-list li strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #262626;
+    }
+
+    /* ===== Sub List ===== */
+    .sub-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 12px;
+    }
+
+    .sub-list li {
+      margin-bottom: 8px;
+      padding-left: 16px;
+      position: relative;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: #444;
+    }
+
+    .sub-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 4px;
+      height: 4px;
+      background-color: #bbb;
+      border-radius: 50%;
+    }
+
+    /* ===== Checklist ===== */
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .checklist li {
+      padding: 14px 18px;
+      background-color: #fafafa;
+      border: 1px solid #f0f0f0;
+      font-size: 0.85rem;
+      font-weight: 400;
+      transition: background-color 0.2s;
+    }
+
+    .checklist li:hover {
+      background-color: #f5f5f5;
+    }
+
+    .checklist li::before {
+      content: "\2610\00a0\00a0";
+      font-size: 1rem;
+      color: #bbb;
+    }
+
+    /* ===== Table ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+    }
+
+    th, td {
+      padding: 14px 20px;
+      text-align: left;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #e8e8e8;
+    }
+
+    th {
+      background-color: #262626;
+      color: #fff;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      background-color: #fff;
+      font-weight: 300;
+      color: #444;
+    }
+
+    tr:hover td {
+      background-color: #fafafa;
+    }
+
+    /* ===== Coming Soon ===== */
+    .coming-soon {
+      text-align: center;
+      padding: 60px 20px;
+      color: #ccc;
+      font-size: 0.85rem;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      font-style: normal;
+    }
+
+    /* ===== Education Pillars ===== */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 32px 0 56px;
+    }
+
+    .pillar-card {
+      padding: 32px 24px;
+      border: 1px solid #e8e8e8;
+      transition: all 0.3s;
+    }
+
+    .pillar-card:hover {
+      border-color: #262626;
+      transform: translateY(-4px);
+    }
+
+    .pillar-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #262626;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .pillar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #262626;
+    }
+
+    .pillar-desc {
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: #888;
+      line-height: 1.8;
+      margin-bottom: 0;
+    }
+
+    /* ===== Footer ===== */
+    footer {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 40px;
+      border-top: 1px solid #262626;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer p {
+      font-size: 0.75rem;
+      font-weight: 300;
+      color: #bbb;
+      letter-spacing: 0.08em;
+      margin: 0;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      header {
+        padding: 40px 20px 30px;
+      }
+
+      header h1 {
+        font-size: 2.4rem;
+      }
+
+      nav ul {
+        padding: 0 20px;
+      }
+
+      nav a {
+        font-size: 0.7rem;
+        padding: 12px 12px;
+      }
+
+      main {
+        padding: 0 20px 80px;
+      }
+
+      h2 {
+        font-size: 1.6rem;
+        margin-bottom: 32px;
+      }
+
+      .step-list > li {
+        padding-left: 48px;
+      }
+
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .pillars {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        padding: 30px 20px;
+        flex-direction: column;
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ignis manual</h1>
+  <p>これを読めば、誰でも店を回せる。</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#open">オープン作業</a></li>
+    <li><a href="#service">接客</a></li>
+    <li><a href="#restock">補充</a></li>
+    <li><a href="#order">発注</a></li>
+    <li><a href="#cleaning">掃除</a></li>
+    <li><a href="#shift">シフト作成</a></li>
+    <li><a href="#mtg-schedule">MTG日程</a></li>
+    <li><a href="#mtg-facilitation">MTG進行</a></li>
+    <li><a href="#education">教育</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- ======================== オープン作業 ======================== -->
+  <section id="open">
+    <h2>オープン作業</h2>
+
+    <table>
+      <tr>
+        <th>曜日</th>
+        <th>開店時間</th>
+        <th>出勤時間</th>
+      </tr>
+      <tr>
+        <td>平日（月〜金）</td>
+        <td>11:00</td>
+        <td>10:45</td>
+      </tr>
+      <tr>
+        <td>土日</td>
+        <td>9:00</td>
+        <td>8:45</td>
+      </tr>
+    </table>
+
+    <ol class="step-list">
+
+      <li>
+        <strong>タイムカードを押す</strong>
+        <p>出勤したら最初にタイムカードを押す。開店15分前に出勤すること。</p>
+        <div class="warning">
+          タイムカードを押し忘れた場合、その日の給料は出ません。<br>
+          忘れた場合は「忘れた理由」と「次回起こさないための対策」をレポートとして提出すること。
+        </div>
+      </li>
+
+      <li>
+        <strong>鍵開け・レジに鍵を刺す</strong>
+        <p>店の鍵を開けたら、すぐにレジに鍵を刺す。鍵を持ったままにしない。</p>
+      </li>
+
+      <li>
+        <strong>電気を全てつける</strong>
+        <p>店内の電気を <strong>6個全て</strong> つける。</p>
+        <div class="warning">1個もつけ忘れないこと。必ず6個全て点灯を確認する。</div>
+      </li>
+
+      <li>
+        <strong>豆の準備・確認</strong>
+        <ul class="sub-list">
+          <li>ドリップ用・エスプレッソ用の豆の補充ができていなければ補充する</li>
+          <li>全ての豆の香りを嗅ぐ（異常がないか確認）</li>
+          <li>正しいボトルに全て入っているか確認する</li>
+          <li>豆の在庫をノートに記入する</li>
+          <li>焙煎が一番古いものを「本日のおすすめ」として1番に出す</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>エスプレッソマシンの立ち上げ</strong>
+        <ul class="sub-list">
+          <li>シャワーヘッドとネジをマシンに取り付ける</li>
+          <li>ポルタフィルターをマシンにセットして温めておく</li>
+          <li>グラインダー調整：最初の2杯分は捨てる（マッツァー調整用）</li>
+        </ul>
+        <div class="note">
+          <strong>抽出の基本</strong><br>
+          豆 22g → エスプレッソ 40g を抽出。<br>
+          味を見て挽き目を調整する。
+        </div>
+      </li>
+
+      <li>
+        <strong>レジ金の確認</strong>
+        <p>前日に送られたお金の計算が合っているか確認する。金額が合わない場合は報告すること。</p>
+      </li>
+
+      <li>
+        <strong>仕込みの確認</strong>
+        <ul class="sub-list">
+          <li><strong>甘酒</strong> — 古くなっていたら作り直す</li>
+          <li><strong>エスプレッソスプレー</strong> — 古くなっていたら入れ直す</li>
+          <li><strong>コーヒーゼリー</strong> — 残数を確認し、3個以下だったら作る</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>開店前チェックリスト</strong>
+        <ul class="checklist">
+          <li>外の椅子を全て拭く</li>
+          <li>カウンターを綺麗にする</li>
+          <li>テイストカードを並べる</li>
+          <li>豆を並べる</li>
+          <li>物販を並べる</li>
+          <li>お湯を準備する</li>
+          <li>ダスターを準備する</li>
+          <li>ピッチャーが綺麗か確認する</li>
+          <li>ノックボックスの袋を確認する</li>
+        </ul>
+      </li>
+
+    </ol>
+  </section>
+
+  <!-- ======================== 接客 ======================== -->
+  <section id="service">
+    <h2>接客</h2>
+
+    <h3>基本姿勢</h3>
+    <p><strong>常に笑顔で丁寧に。</strong>イグニスで働いていることに誇りを持ってお客様に対応すること。</p>
+    <p>お店の前を見ている方には<strong>アイコンタクト</strong>をし、なるべくカウンターに来てもらえるようにしましょう。</p>
+
+    <h3>おすすめの仕方</h3>
+    <p>基本のおすすめは<strong>パナマ ゲイシャ</strong>（2,500円〜10,000円 / シーズンにより変動）。<br>
+    オーナーがパナマに直接仕入れに行っており、日本ではなかなか手に入らない貴重なロットです。</p>
+
+    <div class="note">
+      <strong>お客様に合わせておすすめを変える</strong><br>
+      身だしなみ・服装・バッグ・靴などを見て判断する。
+    </div>
+
+    <table>
+      <tr>
+        <th>お客様のタイプ</th>
+        <th>おすすめ</th>
+      </tr>
+      <tr>
+        <td>外国人の方・ブランド品を身につけている方</td>
+        <td><strong>パナマ ゲイシャ</strong>（2,500円〜）を積極的に提案</td>
+      </tr>
+      <tr>
+        <td>デイリーコーヒーを求めていそうな観光客</td>
+        <td><strong>1,000円ライン</strong> または <strong>1,500円ライン</strong></td>
+      </tr>
+      <tr>
+        <td>普段コーヒーを飲んでいそう・少し高めも払えそうな方</td>
+        <td><strong>2,000円ライン</strong></td>
+      </tr>
+    </table>
+
+    <h3>単価アップ：ドリップバックセットの提案</h3>
+    <p>観光客の方には積極的に<strong>ドリップバックセット</strong>をおすすめする。</p>
+    <div class="note">
+      <strong>カフェラテのみ購入のお客様へのトーク例：</strong><br>
+      「カフェラテ単品は900円ですが、ドリップバック4枚セット（2,000円）をご購入いただくと、<strong>カフェラテが無料</strong>になります。ご自宅でもコーヒーを楽しめるのでお得ですよ！」
+    </div>
+
+    <h3>絶対に避けること</h3>
+    <div class="warning">
+      <strong>入荷予定の断定表現は禁止</strong><br>
+      <ul class="sub-list" style="margin-top: 8px;">
+        <li>NG例：「この豆は来週ごろに入荷する予定です」</li>
+        <li>入荷予定に確信がないものは絶対に言わない</li>
+        <li>入荷予定をお伝えする場合は、必ずオーナーに確認してから回答する</li>
+        <li>基本的に断定表現はなし</li>
+        <li>入荷に関する問い合わせがあった場合は、オンラインサイトへの登録を案内する</li>
+      </ul>
+    </div>
+
+    <h3>支払い方法</h3>
+    <p>基本的に全ての支払い方法に対応しています（現金・カード・電子マネーなど）。</p>
+  </section>
+
+  <!-- ======================== 補充 ======================== -->
+  <section id="restock">
+    <h2>補充</h2>
+
+    <h3>豆の補充</h3>
+    <p>出勤したら、まず<strong>ボトルとホッパーの豆の量を確認</strong>して補充する。</p>
+    <table>
+      <tr>
+        <th>場所</th>
+        <th>補充の目安</th>
+      </tr>
+      <tr>
+        <td>ホッパー</td>
+        <td>蓋ギリギリまで<strong>満タン</strong>に入れる</td>
+      </tr>
+      <tr>
+        <td>ドリップ用ボトル</td>
+        <td>ボトルのくびれの<strong>0.5mm下</strong>まで入れる</td>
+      </tr>
+    </table>
+    <div class="warning">
+      ドリップ用ボトルの擦り切りは禁止！<br>
+      いっぱいに入れるとお客さんが開けたときに豆をばらまいてしまいます。
+    </div>
+
+    <h3>牛乳・インフューズドミルク</h3>
+    <p>出勤時に牛乳は用意されているはずです。<strong>インフューズドミルク（特製ミルク）</strong>があるかを確認してください。</p>
+    <table>
+      <tr>
+        <th>曜日</th>
+        <th>必要パック数</th>
+      </tr>
+      <tr>
+        <td>平日</td>
+        <td><strong>1.5パック</strong>あることを確認</td>
+      </tr>
+      <tr>
+        <td>土日</td>
+        <td><strong>2.5パック</strong>あることを確認</td>
+      </tr>
+    </table>
+    <p>足りなければ補充してから仕事をスタートしてください。</p>
+
+    <h3>カップ・蓋</h3>
+    <p>お店が始まるときに、カップと蓋を<strong>エスプレッソマシンの上</strong>に置いておく。</p>
+
+    <h3>テイクアウトカップのシール貼り</h3>
+    <p>テイクアウトカップが届いたら、<strong>届いた日から10日以内</strong>に全てのカップのシール貼りを完了させる。</p>
+    <table>
+      <tr>
+        <th>曜日</th>
+        <th>1日の目安</th>
+      </tr>
+      <tr>
+        <td>平日</td>
+        <td><strong>8本</strong></td>
+      </tr>
+      <tr>
+        <td>土日</td>
+        <td><strong>5本</strong></td>
+      </tr>
+    </table>
+    <ul class="sub-list">
+      <li>やった本数は<strong>毎日の日報（LINE）</strong>で報告する</li>
+      <li>できなかった場合は<strong>理由を添えて次の人に引き継ぐ</strong></li>
+    </ul>
+
+    <h3>豆のボトル（蓋付け作業）</h3>
+    <p>豆のボトルが届いたら、まず<strong>ボトルと蓋をつける作業</strong>を行う。</p>
+    <ul class="sub-list">
+      <li>到着から<strong>7日以内</strong>に全てのボトルに蓋がついている状態にする</li>
+      <li>進んだ個数は<strong>日報（LINE）で報告</strong>する</li>
+    </ul>
+
+    <h3>届いた物品の整理</h3>
+    <ul class="sub-list">
+      <li>テイクアウト用品が届いたら、<strong>カウンター上の棚に移動</strong>する</li>
+      <li>店が狭いので<strong>段ボールはなるべく早く潰す</strong></li>
+    </ul>
+
+    <h3>物品管理（毎月15日・30日）</h3>
+    <div class="note">
+      毎月<strong>15日</strong>と<strong>30日</strong>に全ての物品の管理表をチェックする。<br>
+      何がいつ頃欠品するかを予想・計算し、<strong>次の発注時期の見立て</strong>を立てること。
+    </div>
+  </section>
+
+  <!-- ======================== 発注 ======================== -->
+  <section id="order">
+    <h2>発注</h2>
+    <p class="coming-soon">準備中</p>
+  </section>
+
+  <!-- ======================== 掃除 ======================== -->
+  <section id="cleaning">
+    <h2>掃除</h2>
+    <p class="coming-soon">準備中</p>
+  </section>
+
+  <!-- ======================== シフト作成 ======================== -->
+  <section id="shift">
+    <h2>シフト作成</h2>
+    <p class="coming-soon">準備中</p>
+  </section>
+
+  <!-- ======================== MTG日程 ======================== -->
+  <section id="mtg-schedule">
+    <h2>MTG日程決め</h2>
+    <p class="coming-soon">準備中</p>
+  </section>
+
+  <!-- ======================== MTG進行 ======================== -->
+  <section id="mtg-facilitation">
+    <h2>MTG進行方法</h2>
+    <p class="coming-soon">準備中</p>
+  </section>
+
+  <!-- ======================== 教育 ======================== -->
+  <section id="education">
+    <h2>教育</h2>
+    <p>イグニスの教育は<strong>3つの柱</strong>で構成されています。</p>
+
+    <div class="pillars">
+      <div class="pillar-card">
+        <div class="pillar-number">01</div>
+        <div class="pillar-title">コーヒーの知識</div>
+        <p class="pillar-desc">コーヒーの本質を理解し、お客様に自信を持って伝えられるようになる</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-number">02</div>
+        <div class="pillar-title">店のオペレーション</div>
+        <p class="pillar-desc">店舗運営の全業務を一人で回せるようになる</p>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-number">03</div>
+        <div class="pillar-title">テストに受かる</div>
+        <p class="pillar-desc">知識・技術を証明し、次のステップに進む</p>
+      </div>
+    </div>
+
+    <h3>エスプレッソ ルーティン</h3>
+    <div class="warning">
+      エスプレッソのルーティン動画を見て、ルーティンができない限り、エスプレッソに触る資格はありません。<br>
+      動画の通りに、正確に行うこと。
+    </div>
+
+    <ol class="step-list">
+      <li>
+        <strong>ポルタフィルターをとる</strong>
+      </li>
+      <li>
+        <strong>パージ</strong>
+      </li>
+      <li>
+        <strong>ノックボックスで3回叩く</strong>
+        <p>強く、3回、同じテンポで。</p>
+      </li>
+      <li>
+        <strong>ポルタフィルターを洗う</strong>
+      </li>
+      <li>
+        <strong>ポルタフィルターを拭く</strong>
+      </li>
+      <li>
+        <strong>計量</strong>
+        <p>スケールの上を払う。</p>
+      </li>
+      <li>
+        <strong>フォークで払う</strong>
+      </li>
+      <li>
+        <strong>2杯分を押す</strong>
+      </li>
+      <li>
+        <strong>スケールを払う</strong>
+      </li>
+      <li>
+        <strong>規定の粉量まで繰り返す</strong>
+        <p>最後はしっかりと規定量の粉を確認してから次の作業に移る。</p>
+      </li>
+      <li>
+        <strong>ポルタフィルターを叩いて粉を均す</strong>
+        <p>奥、手前と叩いて、山を均等にする。</p>
+      </li>
+      <li>
+        <strong>ディストリビューター（奥に4回）</strong>
+      </li>
+      <li>
+        <strong>2回叩いてからとる</strong>
+      </li>
+      <li>
+        <strong>ディストリビューターを回す</strong>
+        <p>3回回して、4回目で勢いで回す。</p>
+      </li>
+      <li>
+        <strong>タンピング</strong>
+        <p>水平になるようにしっかりと押す。アイスの場合は抽出次第でミューテーションする。</p>
+        <ul class="sub-list">
+          <li>2回縁を叩いて、周りについた粉を落とす</li>
+          <li>押す</li>
+          <li>最後に少し押し回しで、微粉を抑える</li>
+        </ul>
+      </li>
+      <li>
+        <strong>ポルタフィルターをセットする</strong>
+        <div class="warning">
+          セット時に振動を与えないこと！<br>
+          ポルタフィルターとケーキの間に空間が生まれて、エスプレッソが流れてしまいます。
+        </div>
+      </li>
+      <li>
+        <strong>ドレンパンを拭く</strong>
+      </li>
+      <li>
+        <strong>スケールをセット</strong>
+        <p>oz（オンス）になっていないかチェックする。</p>
+      </li>
+      <li>
+        <strong>カップをセット</strong>
+      </li>
+      <li>
+        <strong>抽出ボタンを押す</strong>
+      </li>
+    </ol>
+
+    <div class="note">
+      <strong>※ 続きあり</strong> — 後半のステップは追って追加予定。
+    </div>
+
+    <h3>コーヒーの知識</h3>
+    <p class="coming-soon">準備中</p>
+
+    <h3>店のオペレーション</h3>
+    <p class="coming-soon">準備中</p>
+
+    <h3>テストに受かる</h3>
+    <p class="coming-soon">準備中</p>
+  </section>
+
+</main>
+
+<footer>
+  <p>ignis manual</p>
+  <p>©ignis</p>
+</footer>
+
+</body>
+</html>
